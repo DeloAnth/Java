@@ -1,0 +1,260 @@
+//Java application that serves as a GPA calculator
+
+
+
+import javafx.application.Application;
+import javafx.event.*;
+import javafx.geometry.*;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+public class PAssign9 extends Application {
+     
+    
+    
+    //textboxes for lettered grades
+      final TextField Course1 = new TextField();
+     final TextField Course2 = new TextField();
+     final TextField Course3 = new TextField();
+     final TextField Course4 = new TextField();
+    
+     //textboxes for quality points
+      private final TextField Grade1 = new TextField("0.00");
+      private final TextField Grade2 = new TextField("0.00");
+      private final TextField Grade3 = new TextField("0.00");
+      private final TextField Grade4 = new TextField("0.00");
+      
+      private final TextField tbcredhour = new TextField("0.00");
+      private final TextField Final_GPA = new TextField("0.00");
+     
+      private final Button btn_Calculate = new Button("Calculate");
+      private final Button BTN_Clear = new Button("Clear");
+
+
+
+    @Override
+    public void start(Stage primaryStage) 
+    
+    {
+              primaryStage.setResizable(false);
+              Label totcredhour = new Label ("Total Credit Hours");
+              Label lblFinalgpa = new Label("Calculated GPA");
+        Label class1 = new Label("MATH2312");
+        Label class2 = new Label("CSCI3000");
+        Label class3 = new Label("ENG2133");
+        Label class4 = new Label("JOWR 9125");
+        Label grade = new Label("Letter Grades"); 
+        Label credits = new Label("Credit Hours");
+  
+        TextField classes[] = {Course1, Course2, Course3, Course4,
+Grade1, Grade2, Grade3, Grade4, Final_GPA, tbcredhour};
+        Final_GPA.setEditable(false);
+                tbcredhour.setEditable(false);
+
+        
+        
+          for (TextField NClas : classes) 
+          
+          {
+              NClas.setPrefSize(100, 30);
+          }
+
+        GridPane GridP = new GridPane();
+
+        btn_Calculate.setOnAction(e -> GPACalculator());
+        //when clear button is pressed everything resets to 0 or blank again
+        BTN_Clear.setOnAction((ActionEvent e) -> {
+    Grade1.setText("0.00");
+    Grade2.setText("0.00");
+    Grade3.setText("0.00");
+    Grade4.setText("0.00");
+    tbcredhour.setText("0.00");
+    Final_GPA.setText("0.00");
+    Course1.setText("");
+    Course2.setText("");
+    Course3.setText("");
+    Course4.setText("");
+      });
+       //cannot edit any of the fields not meant to be edited.
+        Grade1.setEditable(false);
+        Grade2.setEditable(false);
+        Grade3.setEditable(false);
+        Grade4.setEditable(false);
+        
+        
+        
+            HBox hbox = new HBox();
+            hbox.getChildren().addAll(btn_Calculate,BTN_Clear);
+            HBox.setHgrow(GridP, Priority.ALWAYS);
+            GridP.getChildren().addAll(hbox);
+            
+            GridP.setVgap(15);
+            GridP.setHgap(12);
+            GridP.setPadding(new Insets(10, 5, 10, 10));
+            
+            
+            GridP.add(grade, 1, 0);
+            GridP.add(credits, 2, 0);
+            GridP.add(class1, 0, 1);
+            GridP.add(class2, 0, 2);
+            GridP.add(class3, 0, 3);
+            GridP.add(class4, 0, 4);
+            
+            GridP.add(Course1, 1, 1);
+            GridP.add(Course2, 1, 2);
+            GridP.add(Course3, 1, 3);
+            GridP.add(Course4, 1, 4);
+            
+            GridP.add(Grade1, 2, 1);
+            GridP.add(Grade2, 2, 2);
+            GridP.add(Grade3, 2, 3);
+            GridP.add(Grade4, 2, 4);
+            
+            GridP.add(Final_GPA, 1, 6);
+            GridP.add(lblFinalgpa, 0, 6);
+            
+            GridP.add(totcredhour, 0, 7);
+            GridP.add(tbcredhour, 1, 7);
+
+            
+            
+            Scene scene = new Scene(GridP);
+            primaryStage.setTitle("GPA Calculator");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+          }
+
+    private double GPACalculator() 
+    {
+        double lbl_Caslog1 = 0,
+               lbl_Caslog2 = 0,
+               lbl_Caslog3 = 0,
+               lbl_Caslog4 = 0;
+        
+        
+        //if any of grade fields empty, show warning message
+        if (Course1.getText().trim().isEmpty()
+                || Course2.getText().trim().isEmpty() 
+                || Course3.getText().trim().isEmpty()
+                || Course4.getText().trim().isEmpty()
+         
+              ) 
+        {
+            
+              Alert alert = new Alert(AlertType.INFORMATION);
+alert.setTitle("Hey you!");
+alert.setHeaderText(null);
+alert.setContentText("All Fields must be filled in!");
+alert.showAndWait();
+
+            return -1;
+
+            } else 
+        
+        {
+            switch(Course1.getText())
+            //case statements, each grade represents a number. 
+            {
+                case "A": lbl_Caslog1 = 4; break;
+                case "a": lbl_Caslog1 = 4; break;
+                case "B": lbl_Caslog1 = 3; break;
+                case "b": lbl_Caslog1 = 3; break;
+                case "C": lbl_Caslog1 = 2; break;
+                case "c": lbl_Caslog1 = 2; break;
+                case "D": lbl_Caslog1 = 1; break;
+                case "d": lbl_Caslog1 = 1; break;
+                case "F": lbl_Caslog1 = 0; break;
+                case "f": lbl_Caslog1 = 0; break;
+            }
+            switch(Course2.getText())
+            {
+                case "A": lbl_Caslog2 = 4; break;
+                case "a": lbl_Caslog2 = 4; break;
+                case "B": lbl_Caslog2 = 3; break;
+                case "b": lbl_Caslog2 = 3; break;
+                case "C": lbl_Caslog2 = 2; break;
+                case "c": lbl_Caslog2 = 2; break;
+                case "D": lbl_Caslog2 = 1; break;
+                case "d": lbl_Caslog2 = 1; break;
+                case "F": lbl_Caslog2 = 0; break;
+                case "f": lbl_Caslog2 = 0; break;
+            }
+            switch(Course3.getText())
+            {
+                case "A": lbl_Caslog3 = 4; break;
+                case "a": lbl_Caslog3 = 4; break;
+                
+                case "B": lbl_Caslog3 = 3; break;
+                case "b": lbl_Caslog3 = 3; break;
+                
+                case "C": lbl_Caslog3 = 2; break;
+                case "c": lbl_Caslog3 = 2; break;
+                
+                case "D": lbl_Caslog3 = 1; break;
+                case "d": lbl_Caslog3 = 1; break;
+                
+                case "F": lbl_Caslog3 = 0; break;
+                case "f": lbl_Caslog3 = 0; break;
+            }
+            switch(Course4.getText())
+            {
+                case "A": lbl_Caslog4 = 4; break;
+                case "a": lbl_Caslog4 = 4; break;
+                
+                case "B": lbl_Caslog4 = 3; break;
+                case "b": lbl_Caslog4 = 3; break;
+                
+                case "C": lbl_Caslog4 = 2; break;
+                case "c": lbl_Caslog4 = 2; break;
+                
+                case "D": lbl_Caslog4 = 1; break;
+                case "d": lbl_Caslog4 = 1; break;
+                
+                case "F": lbl_Caslog4 = 0; break;
+                case "f": lbl_Caslog4 = 0; break;
+            }
+           
+            //doubles for math calculations below
+            double Modnum1 = lbl_Caslog1;
+            double Modnum2 = lbl_Caslog2;
+            double Modnum3 = lbl_Caslog3;
+            double Modnum4 = lbl_Caslog4;
+            
+            
+            //math calculations here
+            //determines credit hours for indv classes. number from grade * 3
+            double crehour1 = Modnum1 * 3;
+            double crehour2 = Modnum2 * 3;
+            double crehour3 = Modnum3 * 3;
+            double crehour4 = Modnum4 * 3;
+            
+            //final calc for credit hours total. just add values from earlier
+            double crehourfinal = crehour1+crehour2+crehour3+crehour4;
+            
+            //determines final average
+            double GradeSum = (Modnum1 + Modnum2 + Modnum3 + Modnum4);
+            double Final_Ave = GradeSum / 4;
+            
+            //sets the values to total credit hours
+                     Grade1.setText(String.format("%.2f", crehour1));
+                     Grade2.setText(String.format("%.2f", crehour2));
+                     Grade3.setText(String.format("%.2f", crehour3));
+                     Grade4.setText(String.format("%.2f", crehour4));
+                     tbcredhour.setText(String.format("%.2f", crehourfinal));
+            Final_GPA.setText(String.format("%.2f", Final_Ave));
+            return Final_Ave;
+            
+            
+            
+        }
+    }
+    
+        
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+}
